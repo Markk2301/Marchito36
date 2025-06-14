@@ -1,7 +1,9 @@
-from aiogram import Router,types
+from aiogram import Router,types, F
 from aiogram.filters import Command, or_f
-from aiogram import F
+from telebot.types import CallbackQuery
+
 from keyboars.inline import funny_keyboard
+
 
 
 
@@ -10,16 +12,16 @@ command_router = Router()
 
 @command_router.message(Command('start'))
 async def handle_start(m: types.message) -> None:
-    start_message= ('HI! Im only your own English teacher. I always ready to teach you! Click /help to begin our '
-                    'lesson.')
+    start_message= ("ПРИВЕТ! Я ваш личный преподаватель английского языка. Я всегда готов научить вас чему то новому! Нажмите /help, чтобы начать наш урок."
+                    )
     await m.answer(text = start_message)
 
 @command_router.message(Command('help'))
 async def handle_start(m:types.Message) -> None:
-    start_message = (f'🔹/start – начать работу с ботом:\n'
-                     f'🔹/help – список команд:\n'
+    start_message = (
                      f'🔹/about – информация о боте:\n'
                      f'🥺Обучение🥺:\n'
+                     f'Напиши слово (перевод), если нужно будет что то перевести\n'
                      f'📖 /words – новые слова дня\n'
                      f'🔄 /repeat – повторить изученное\n'
                      f'📝 /test – пройти тест на знание слов\n'
@@ -38,7 +40,8 @@ async def handle_start(m:types.Message) -> None:
                      f'✔️ Мини-уроки по 5-10 минут в день\n'
                      f'✔️ Игровой формат\n'
                      f'🚀 Наша цель – сделать изучение английской лексики простым и увлекательным!\n'
-                     f'Версия 1.0 | По вопросам: @Installer_editor36\n')
+                     f'Версия 1.0 | По вопросам: @Installer_editor36\n'
+                     f'Нажми /help, если нужно будет посмотреть какие есть у меня есть команды\n')
     await m.answer(text=start_message)
 
 @command_router.message(F.sticker)
@@ -88,6 +91,9 @@ async def handle_start(m: types.message) -> None:
 @command_router.message(F.text.lower().contains("перевод"))
 async def reply_goodbye(message: types.Message):
     await message.answer(text="Translate", reply_markup=funny_keyboard)
+
+
+
 
 
 
