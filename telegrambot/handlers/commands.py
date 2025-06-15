@@ -1,3 +1,5 @@
+import json
+
 from aiogram.types import ReplyKeyboardRemove
 from keyboars.inline import funny_keyboard
 from aiogram import Router, types, F
@@ -15,6 +17,7 @@ logging.basicConfig(
 
 
 user_vocabulary = {}
+user_last_random_word_message = {}
 user_added_words = {}
 user_progress = {}
 used_words = {}
@@ -245,6 +248,7 @@ english_words = {"aisle": "проход", "bargain": "выгодная поку�
 
 }
 
+
 command_router = Router()
 
 
@@ -280,9 +284,15 @@ async def get_random_word(user_id: int):
 
 @command_router.message(Command('words'))
 async def send_random_word(message: types.Message):
-    user_id = message.from_user.id
+    user_id = message.chat.id
     word, translation = await get_random_word(user_id)
     user_vocabulary[user_id] = (word, translation)
+
+    # Delete previous message
+    # if user_id in user_last_random_word_message:
+    #     last_message_id = user_last_random_word_message[user_id]
+    #     await message.chat.delete_message(last_message_id)
+    # user_last_random_word_message[user_id] = message.message_id
 
     await message.answer(
         text=f"🎲 Случайное слово:\n\n🔤 {word}\n🇷🇺 {translation}",
@@ -364,7 +374,7 @@ async def handle_help(message: types.Message):
     help_message = (
         "🔹/about – информация о боте:\n"
         "🥺Обучение🥺:\n"
-        "Напиши слово (перевод), если нужно будет что-то перевести\n"
+        "Напиши слово ( перевод ), если нужно будет что-то перевести.\n"
         "📖 /words – новые слова дня\n"
         "📚 /mywords – просмотр добавленных слов\n" 
         "📝 /test – пройти тест на знание слов\n"
@@ -382,15 +392,22 @@ async def handle_start(message: types.Message):
 async def handle_about(message: types.Message):
     about_message = (
         "SpeakUp Bot – это умный помощник для изучения английских слов легко и эффективно!\n"
+         '\n'
         "✨ Что умеет бот?\n"
-        "📚 Учит новым словам с примерами и озвучкой\n"
-        "🔄 Помогает повторять слова по алгоритму интервальных повторений\n"
-        "📊 Отслеживает ваш прогресс в обучении\n"
+        '\n'
+        "1.📚 Учит новым словам с примерами и озвучкой\n"
+        "2.🔄 Помогает повторять слова по алгоритму интервальных повторений\n"
+        "3.📊 Отслеживает ваш прогресс в обучении\n"
+         '\n'
         "📌 Принципы обучения:\n"
-        "✔️ Мини-уроки по 5-10 минут в день\n"
-        "✔️ Игровой формат\n"
-        "🚀 Наша цель – сделать изучение английской лексики простым и увлекательным!\n"
+         '\n'
+        "1.✔️ Мини-уроки по 5-10 минут в день\n"
+        "2.✔️ Игровой формат\n"
+         '\n'
+        "❤️ Наша цель – сделать изучение английской лексики простым и увлекательным!❤️\n"
+         '\n'
         "Версия 1.0 | По вопросам: @Installer_editor36\n"
+         '\n'
         "Нажми /help, если нужно будет посмотреть какие есть у меня команды"
     )
     await message.answer(text=about_message)
