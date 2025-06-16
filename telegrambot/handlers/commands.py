@@ -254,9 +254,10 @@ command_router = Router()
 
 def get_word_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="✅ Добавить", callback_data="add_word")],
-        [InlineKeyboardButton(text="⏭ Пропустить", callback_data="skip_word")],
-        [InlineKeyboardButton(text="📚 Мои слова", callback_data="my_words")]
+        [InlineKeyboardButton(text="✅ Добавить", callback_data="add_word"),
+         InlineKeyboardButton(text="⏭ Пропустить", callback_data="skip_word")],
+        [InlineKeyboardButton(text="📚 Мои слова", callback_data="my_words"),
+         InlineKeyboardButton(text="📝 Тест", callback_data="start_test")]
     ])
 
 
@@ -457,39 +458,36 @@ async def send_photo(message:types.Message):
     caption = '❤️Учим английский вместе❤️!',
     )
 
+
 def get_test_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🔁 Еще тест", callback_data="more_test")],
-        [InlineKeyboardButton(text="🏠 В меню", callback_data="to_menu")]
+        [InlineKeyboardButton(text="🔁 Пройти тест еще раз", callback_data="more_test")],
+        [InlineKeyboardButton(text="🏠 Главное меню", callback_data="to_menu")]
     ])
 
-async def generate_test(user_id: int):
 
-    if user_id not in user_added_words or not user_added_words[user_id]:
+async def generate_test(user_id: int):
+    """Генерирует тест только из добавленных пользователем слов"""
+    if user_id not in user_added_words or len(user_added_words[user_id]) < 4:
         return None, None, None
 
-
+    # Выбираем случайное слово из добавленных пользователем
     test_word, correct_answer = random.choice(list(user_added_words[user_id].items()))
 
+    # Собираем 3 случайных неправильных ответа из ТОЛЬКО добавленных слов
     wrong_answers = []
-    all_words = list(user_added_words[user_id].values())
+    all_added_words = list(user_added_words[user_id].values())
 
+    while len(wrong_answers) < 3:
+        word = random.choice(all_added_words)
+        if word != correct_answer and word not in wrong_answers:
+            wrong_answers.append(word)
 
-    if len(all_words) > 3:
-        while len(wrong_answers) < 3:
-            word = random.choice(all_words)
-            if word != correct_answer and word not in wrong_answers:
-                wrong_answers.append(word)
-    else:
-
-        while len(wrong_answers) < 3:
-            word = random.choice(list(english_words.values()))
-            if word != correct_answer and word not in wrong_answers:
-                wrong_answers.append(word)
-
+    # Смешиваем ответы
     all_answers = [correct_answer] + wrong_answers
     random.shuffle(all_answers)
 
+    # Сохраняем данные теста
     user_tests[user_id] = {
         "word": test_word,
         "correct": correct_answer,
@@ -498,19 +496,48 @@ async def generate_test(user_id: int):
 
     return test_word, all_answers, all_answers.index(correct_answer)
 
-@command_router.message(Command('test'))
-async def handle_test(message: types.Message):
-    user_id = message.from_user.id
 
-    if user_id not in user_added_words or not user_added_words[user_id]:
-        await message.answer("📚 У вас пока нет добавленных слов для теста. Добавьте слова через команду /words")
+@command_router.callback_query(F.data == "start_test")
+async def handle_start_test(callback: types.CallbackQuery):
+    user_id = callback.from_user.id
+
+    # Проверяем, что у пользователя достаточно слов для теста
+    if user_id not in user_added_words or len(user_added_words[user_id]) < 4:
+        await callback.answer(
+            "📝 Для прохождения теста нужно добавить как минимум 4 слова!",
+            show_alert=True
+        )
         return
 
     test_word, answers, _ = await generate_test(user_id)
 
-    if not test_word:
-        await message.answer("❌ Не удалось создать тест. Добавьте больше слов.")
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=answers[0], callback_data="test_answer_0")],
+        [InlineKeyboardButton(text=answers[1], callback_data="test_answer_1")],
+        [InlineKeyboardButton(text=answers[2], callback_data="test_answer_2")],
+        [InlineKeyboardButton(text=answers[3], callback_data="test_answer_3")],
+    ])
+
+    await callback.message.edit_text(
+        text=f"📝 Тест: Как переводится слово '{test_word}'?",
+        reply_markup=keyboard
+    )
+    await callback.answer()
+
+
+@command_router.message(Command('test'))
+async def handle_test(message: types.Message):
+    user_id = message.from_user.id
+
+    # Проверяем, что у пользователя достаточно слов для теста
+    if user_id not in user_added_words or len(user_added_words[user_id]) < 4:
+        await message.answer(
+            "📝 Для прохождения теста нужно добавить как минимум 4 слова.\n"
+            "Используйте /words, чтобы добавить новые слова!"
+        )
         return
+
+    test_word, answers, _ = await generate_test(user_id)
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=answers[0], callback_data="test_answer_0")],
@@ -523,6 +550,7 @@ async def handle_test(message: types.Message):
         text=f"📝 Тест: Как переводится слово '{test_word}'?",
         reply_markup=keyboard
     )
+
 
 @command_router.callback_query(F.data.startswith("test_answer_"))
 async def handle_test_answer(callback: types.CallbackQuery):
@@ -537,17 +565,14 @@ async def handle_test_answer(callback: types.CallbackQuery):
 
     if test_data["answers"][answer_index] == test_data["correct"]:
         response = "✅ Правильно! Отличная работа!"
-
         if "correct" not in user_progress[user_id]:
             user_progress[user_id]["correct"] = 0
         user_progress[user_id]["correct"] += 1
     else:
         response = f"❌ Неправильно. Правильный ответ: '{test_data['correct']}'"
-
         if "wrong" not in user_progress[user_id]:
             user_progress[user_id]["wrong"] = 0
         user_progress[user_id]["wrong"] += 1
-
 
     await callback.message.edit_text(
         text=f"{response}\n\nСлово: {test_data['word']}\nПеревод: {test_data['correct']}",
@@ -555,15 +580,35 @@ async def handle_test_answer(callback: types.CallbackQuery):
     )
     await callback.answer()
 
+
 @command_router.callback_query(F.data == "more_test")
 async def handle_more_test(callback: types.CallbackQuery):
-    await handle_test(callback.message)
+    user_id = callback.from_user.id
+
+    if user_id not in user_added_words or len(user_added_words[user_id]) < 4:
+        await callback.answer("❌ Недостаточно слов для теста. Добавьте больше слов!")
+        return
+
+    test_word, answers, _ = await generate_test(user_id)
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=answers[0], callback_data="test_answer_0")],
+        [InlineKeyboardButton(text=answers[1], callback_data="test_answer_1")],
+        [InlineKeyboardButton(text=answers[2], callback_data="test_answer_2")],
+        [InlineKeyboardButton(text=answers[3], callback_data="test_answer_3")],
+    ])
+
+    await callback.message.edit_text(
+        text=f"📝 Тест: Как переводится слово '{test_word}'?",
+        reply_markup=keyboard
+    )
     await callback.answer()
+
 
 @command_router.callback_query(F.data == "to_menu")
 async def handle_to_menu(callback: types.CallbackQuery):
     await callback.message.edit_text(
-        text="🏠 Возвращаемся в главное меню",
+        text="🏠 Вы вернулись в главное меню",
         reply_markup=get_word_keyboard()
     )
     await callback.answer()

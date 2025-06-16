@@ -13,3 +13,4 @@ async def handle_button(callback: aiogram.types.CallbackQuery):
 async def send_text(callback: types.CallbackQuery):
     await callback.answer()  # закрывает "часики" на кнопке
     await callback.message.answer("Это обычное текстовое сообщение ")
+
