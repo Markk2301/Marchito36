@@ -1,4 +1,5 @@
 import json
+from ast import parse
 
 from aiogram.types import ReplyKeyboardRemove
 from keyboars.inline import funny_keyboard
@@ -391,10 +392,19 @@ async def handle_help(message: types.Message):
 
 @command_router.message(Command('start'))
 async def handle_start(message: types.Message):
-    start_message = ("ПРИВЕТ! Я ваш личный преподаватель английского языка. "
-                     "Я всегда готов научить вас чему-то новому абсолютно БЕСПЛАТНО! Нажмите /help, чтобы перейти в панель управления командами или "
-                     "нажмите /about, чтобы узнать больше информации о боте.")
-    await message.answer(text=start_message)
+    start_message = ("🌟 <i>Добро пожаловать в SpeakUp Bot! </i>🌟\n\n"
+        "👋 Привет! Я ваш персональный помощник в изучении английского языка!\n\n"
+        "📚 Со мной вы сможете:\n"
+        "• Пополнять свой словарный запас\n"
+        "• Проверять свои знания в тестах\n"
+        "• Отслеживать свой прогресс\n\n"
+        "💡 Все мои услуги абсолютно <i>БЕСПЛАТНЫ</i>!\n\n"
+        "🛠 <i>Быстрый старт:</i>\n"
+        "🔹 /help - все доступные команды\n"
+        "🔹 /about - подробнее о возможностях\n"
+        "🔹 /words - начать учить новые слова прямо сейчас!\n\n"
+        "🎉 Давайте сделаем изучение английского увлекательным вместе!")
+    await message.answer(text=start_message, parse_mode='HTML')
 
 @command_router.message(Command('about'))
 async def handle_about(message: types.Message):
@@ -414,8 +424,10 @@ async def handle_about(message: types.Message):
          '\n'
         "❤️ Наша цель – сделать изучение английской лексики простым и увлекательным!❤️\n"
          '\n'
-        "Версия 1.0 | Если ошибка или есть нужно что то добавить, писать @Installer_editor36\n"
+        "Версия 1.0 | Если нужно что-то добавить или у вас вылезает ошибка, писать @Installer_editor36\n"
          '\n'
+        'НАЖМИ (/words) ЧТОБЫ НАЧАТЬ УЧИТЬ АНГЛИЙСКИЙ\n'
+        '\n'
         "Нажми /help, если нужно будет посмотреть какие есть у меня команды"
     )
     await message.answer(text=about_message)
@@ -438,10 +450,6 @@ async def reply_goodbye(message: types.Message):
 @command_router.message(F.text.lower().contains('thank you'))
 async def reply_thanks(message: types.Message):
     await message.answer(text="🥰 You are welcome! 🥰")
-
-@command_router.message(or_f(Command("menu"), (F.text.lower() == "menu")))
-async def show_menu(message: types.Message):
-    await message.answer(text="Главное меню:\n/words - Новые слова \n/help - Все команды")
 
 @command_router.message(Command('topics'))
 async def handle_topics(message: types.Message):
