@@ -10,14 +10,12 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# Определяем клавиатуру для перевода
+
 funny_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="🔤 Английский", callback_data="english_translate"),
      InlineKeyboardButton(text="🇷🇺 Русский", callback_data="russian_translate")]
 ])
 
-
-# Инициализация базы данных
 def init_db():
     conn = sqlite3.connect('vocabulary.db')
     cursor = conn.cursor()
@@ -171,7 +169,6 @@ def init_db():
         "trust": "доверять",
         "wonder": "интересоваться",
         "yell": "кричать",
-
         "achieve": "достигать",
         "admire": "восхищаться",
         "advise": "советовать",
@@ -459,9 +456,300 @@ def init_db():
         "work": "работать",
         "worry": "беспокоиться",
         "write": "писать",
+        "aisle": "проход",
+        "bargain": "выгодная покупка",
+        "complimentary":
+        "бесплатный (предоставляемый)",
+        "delivery": "доставка",
+        "expiry": "срок годности",
+        "fragile": "хрупкий",
+        "gadget": "гаджет",
+        "handy": "удобный",
+        "inventory": "ассортимент",
+        "junk": "хлам",
+        "knickknack": "безделушка",
+        "landmark": "ориентир",
+        "malfunction": "неисправность",
+        "novelty": "новинка",
+        "outlet": "розетка/аутлет",
+        "package": "пакет/посылка",
+        "quirky": "необычный",
+        "receipt": "чек",
+        "souvenir": "сувенир",
+        "tag": "ценник/бирка",
+        "upgrade": "улучшение",
+        "voucher": "талон",
+        "warranty": "гарантия",
+        "aisle seat": "место у прохода",
+        "bellhop": "носильщик",
+        "concierge": "консьерж",
+        "doorman": "швейцар",
+        "etiquette": "этикет",
+        "fare": "плата за проезд",
+        "gratuity": "чаевые",
+        "hostel": "хостел",
+        "itinerary": "маршрут",
+        "keycard": "ключ-карта",
+        "lodging": "жилье",
+        "motel": "мотель",
+        "no-show": "неявка",
+        "overnight": "ночевка",
+        "pit stop": "остановка в пути",
+        "queue": "очередь",
+        "reservation": "бронирование",
+        "stopover": "транзит",
+        "transit": "пересадка",
+        "utilities": "коммунальные услуги",
+        "vacancy": "свободные места",
+        "walk-in": "без записи",
+        "exchange rate": "курс обмена",
+        "zip code": "почтовый индекс",
+        "rush hour": "час пик",
+        "awkward": "неловкий",
+        "banter": "дружеский подтрунивание",
+        "chitchat": "светская беседа",
+        "dense": "недогадливый",
+        "egotistical": "самовлюбленный",
+        "flaky": "ненадежный",
+        "gossip": "сплетни",
+        "humblebrag": "скромное хвастовство",
+        "icebreaker": "способ разрядить обстановку",
+        "jabber": "болтовня",
+        "kudos": "похвала",
+        "lousy": "отвратительный",
+        "moody": "переменчивый",
+        "nosy": "любопытный",
+        "offbeat": "нестандартный",
+        "petty": "мелочный",
+        "quirky": "с причудами",
+        "rant": "гневная тирада",
+        "sassy": "дерзкий",
+        "tactless": "бестактный",
+        "uptight": "напряженный",
+        "vibe": "атмосфера",
+        "whiny": "нытик",
+        "small talk": "светская беседа",
+        "backhanded compliment": "комплимент с подтекстом",
+        "blunt": "прямолинейный",
+        "cheesy": "банальный",
+        "dorky": "чудаковатый",
+        "facepalm": "жест разочарования",
+        "geeky": "увлекающийся технологиями",
+        "hang out": "тусоваться",
+        "jumpy": "нервный",
+        "kinky": "эксцентричный",
+        "laid-back": "расслабленный",
+        "mellow": "спокойный",
+        "nerdy": "ботанистый",
+        "obnoxious": "неприятный",
+        "pushy": "настойчивый",
+        "quirky": "своеобразный",
+        "rowdy": "шумный",
+        "snarky": "язвительный",
+        "thrifty": "бережливый",
+        "unplug": "отключаться (от техники)",
+        "vegan": "веган",
+        "woke": "просвещенный",
+        "xenial": "гостеприимный",
+        "yappy": "болтливый",
+        "zing": "колкость",
+        "airdrop": "передача файлов",
+        "binge-watch": "смотреть подряд",
+        "clickbait": "замануха",
+        "deepfake": "фейковое видео",
+        "emoji": "эмодзи",
+        "fomo": "страх упустить возможность",
+        "glitch": "сбой",
+        "hashtag": "хэштег",
+        "influencer": "инфлюенсер",
+        "junk mail": "спам",
+        "kiosk": "киоск",
+        "livestream": "прямая трансляция",
+        "meme": "мем",
+        "notifications": "уведомления",
+        "on-brand": "соответствующий стилю",
+        "podcast": "подкаст",
+        "QR code": "QR-код",
+        "reboot": "перезагрузка",
+        "spoiler": "спойлер",
+        "troll": "тролль",
+        "unfriend": "удалить из друзей",
+        "viral": "вирусный",
+        "wi-fi": "вай-фай",
+        "app": "приложение",
+        "blog": "блог",
+        "crowdfund": "краудфандинг",
+        "download": "скачивать",
+        "ebook": "электронная книга",
+        "firewall": "брандмауэр",
+        "gigabyte": "гигабайт",
+        "homepage": "главная страница",
+        "inbox": "входящие",
+        "jpeg": "jpeg",
+        "keyboard": "клавиатура",
+        "lag": "задержка",
+        "netizen": "пользователь интернета",
+        "offline": "вне сети",
+        "phishing": "фишинг",
+        "spam": "спам",
+        "tablet": "планшет",
+        "username": "имя пользователя",
+        "vlog": "видеоблог",
+        "webinar": "вебинар",
+        "boarding pass": "посадочный талон",
+        "carry-on": "ручная кладь",
+        "connecting flight": "стыковочный рейс",
+        "departure gate": "выход на посадку",
+        "duty-free": "дьюти-фри",
+        "emergency exit": "аварийный выход",
+        "fast track": "ускоренный проход",
+        "ground transportation": "наземный транспорт",
+        "hotel shuttle": "гостиничный шаттл",
+        "immigration": "иммиграционный контроль",
+        "jet bridge": "телескопический трап",
+        "layover": "пересадка",
+        "lost and found": "бюро находок",
+        "overhead bin": "багажная полка",
+        "passport control": "паспортный контроль",
+        "red-eye flight": "ночной рейс",
+        "seat assignment": "распределение мест",
+        "ticket counter": "стойка регистрации",
+        "travel adapter": "переходник для розеток",
+        "trolley": "тележка",
+        "turntable": "багажная карусель",
+        "visa waiver": "безвизовый въезд",
+        "window seat": "место у окна",
+        "boarding time": "время посадки",
+        "check-in desk": "стойка регистрации",
+        "delayed flight": "задержанный рейс",
+        "exit row": "ряд у аварийного выхода",
+        "flight attendant": "бортпроводник",
+        "luggage allowance": "норма багажа",
+        "priority boarding": "приоритетная посадка",
+        "appetizer": "закуска",
+        "buffet": "шведский стол",
+        "chef's special": "фирменное блюдо",
+        "doggie bag": "еда с собой из ресторана",
+        "entrée": "основное блюдо",
+        "fixed menu": "фиксированное меню",
+        "gluten-free": "без глютена",
+        "happy hour": "счастливый час",
+        "ingredients": "ингредиенты",
+        "junk food": "фастфуд",
+        "kosher": "кошерный",
+        "lactose-free": "без лактозы",
+        "mocktail": "безалкогольный коктейль",
+        "nutritious": "питательный",
+        "organic": "органический",
+        "portion size": "размер порции",
+        "quiche": "киш",
+        "reservation": "бронирование",
+        "side dish": "гарнир",
+        "tap water": "вода из-под крана",
+        "utensils": "столовые приборы",
+        "vegan option": "веганская опция",
+        "waitlist": "лист ожидания",
+        "à la carte": "à la carte (по меню)",
+        "brunch": "поздний завтрак",
+        "condiments": "приправы",
+        "dietary restrictions": "пищевые ограничения",
+        "food poisoning": "пищевое отравление",
+        "gourmet": "гурман",
+        "homemade": "домашнего приготовления",
+        "barcode": "штрих-код",
+        "clearance sale": "распродажа",
+        "discount code": "код скидки",
+        "exchange policy": "политика обмена",
+        "final sale": "без возврата",
+        "gift receipt": "подарочный чек",
+        "in stock": "в наличии",
+        "jewelry counter": "отдел бижутерии",
+        "keep the change": "сдачи не надо",
+        "loyalty card": "дисконтная карта",
+        "mail-in rebate": "возврат по почте",
+        "non-refundable": "невозвратный",
+        "out of stock": "нет в наличии",
+        "price match": "сопоставление цен",
+        "quality guarantee": "гарантия качества",
+        "return policy": "политика возврата",
+        "shopping spree": "шопинг-марафон",
+        "try on": "примерять",
+        "unworn": "не ношенный",
+        "value pack": "выгодная упаковка",
+        "warranty card": "гарантийный талон",
+        "exchange desk": "стойка обмена",
+        "fitting room": "примерочная",
+        "gift wrapping": "подарочная упаковка",
+        "impulse buy": "спонтанная покупка",
+
+
+        "last season": "прошлый сезон",
+        "must-have": "необходимая вещь",
+        "on clearance": "на распродаже",
+        "price tag": "ценник",
+        "shopping cart": "тележка для покупок",
+        "autocorrect": "автозамена",
+        "browser": "браузер",
+        "cache": "кэш",
+        "data plan": "тарифный план",
+        "emoji keyboard": "клавиатура с эмодзи",
+        "firewall": "брандмауэр",
+        "google it": "погугли",
+        "hack": "взлом",
+        "in-app purchase": "внутриигровая покупка",
+        "jailbreak": "взлом устройства",
+        "keychain": "связка ключей (паролей)",
+        "laggy": "тормозящий",
+        "mute": "отключить звук",
+        "notifications": "уведомления",
+        "offline mode": "автономный режим",
+        "pop-up": "всплывающее окно",
+        "QR scanner": "QR-сканер",
+        "refresh": "обновить",
+        "screenshot": "скриншот",
+        "touchscreen": "сенсорный экран",
+        "unsubscribe": "отписаться",
+        "viral content": "вирусный контент",
+        "wireless charger": "беспроводная зарядка",
+        "airplane mode": "авиарежим",
+        "bug fix": "исправление ошибки",
+        "cloud storage": "облачное хранилище",
+        "dark mode": "темный режим",
+        "e-receipt": "электронный чек",
+        "facial recognition": "распознавание лица",
+        "geotag": "геотег",
+        "blackout": "отключение электричества",
+        "carpool": "совместная поездка",
+        "deadline": "крайний срок",
+        "emergency contact": "контакт для экстренных случаев",
+        "flat tire": "спущенное колесо",
+        "gas station": "заправка",
+        "handyman": "мастер на все руки",
+        "insurance claim": "страховое требование",
+        "jump start": "прикурить автомобиль",
+        "keysmith": "мастер по ключам",
+        "leak": "протечка",
+        "maintenance": "техобслуживание",
+        "no parking zone": "место где парковка запрещена",
+        "on hold": "на удержании",
+        "paperwork": "документы",
+        "quick fix": "временное решение",
+        "roadside assistance": "помощь на дороге",
+        "service charge": "плата за обслуживание",
+        "traffic jam": "пробка",
+        "utilities": "коммунальные услуги",
+        "vandalism": "вандализм",
+        "water damage": "повреждение от воды",
+        "xerox copy": "ксерокопия",
+        "yard sale": "распродажа во дворе",
+        "zip tie": "пластиковая стяжка",
+        "after hours": "в нерабочее время",
+        "break-in": "взлом",
+        "customer service": "обслуживание клиентов",
+        "dress code": "дресс-код",
+        "electrician": "электрик"
     }
 
-    # Проверяем, есть ли уже слова в базе
     cursor.execute("SELECT COUNT(*) FROM words")
     if cursor.fetchone()[0] == 0:
         for eng, rus in english_words.items():
@@ -475,10 +763,10 @@ def init_db():
 conn = init_db()
 cursor = conn.cursor()
 
-# Временное хранилище для текущих тестов
+
 user_tests = {}
-user_vocabulary = {}  # Для хранения текущего слова, предложенного пользователю
-user_words_pagination = {}  # Для хранения пагинации пользователей
+user_vocabulary = {}
+user_words_pagination = {}
 
 command_router = Router()
 
@@ -493,13 +781,13 @@ def get_word_keyboard():
 
 
 async def get_random_word(user_id: int):
-    # Получаем ID всех слов, которые пользователь уже добавлял
+
     cursor.execute('''
     SELECT word_id FROM user_words WHERE user_id = ?
     ''', (user_id,))
     used_word_ids = [row[0] for row in cursor.fetchall()]
 
-    # Получаем случайное слово, которое пользователь еще не добавлял
+
     if used_word_ids:
         cursor.execute(f'''
         SELECT id, english, russian FROM words 
@@ -515,7 +803,7 @@ async def get_random_word(user_id: int):
     word_data = cursor.fetchone()
 
     if not word_data:
-        # Если все слова использованы, начинаем сначала
+
         cursor.execute('''
         SELECT id, english, russian FROM words 
         ORDER BY RANDOM() LIMIT 1
@@ -551,13 +839,13 @@ async def handle_add_word(callback: types.CallbackQuery):
         word_id, word, translation = user_vocabulary[user_id]
 
         try:
-            # Добавляем слово в словарь пользователя
+
             cursor.execute('''
             INSERT OR IGNORE INTO user_words (user_id, word_id) 
             VALUES (?, ?)
             ''', (user_id, word_id))
 
-            # Обновляем прогресс
+
             cursor.execute('''
             INSERT OR IGNORE INTO user_progress (user_id, added, skipped) 
             VALUES (?, 0, 0)
@@ -571,11 +859,11 @@ async def handle_add_word(callback: types.CallbackQuery):
 
             conn.commit()
 
-            # Удаляем сообщение с предложением слова
+
             await callback.message.delete()
             await callback.answer("✅ Слово добавлено в ваш словарь!")
 
-            # Отправляем новое слово
+
             await send_random_word(callback.message)
         except Exception as e:
             logging.error(f"Error adding word: {e}")
@@ -589,7 +877,7 @@ async def handle_skip_word(callback: types.CallbackQuery):
     user_id = callback.from_user.id
 
     try:
-        # Обновляем прогресс
+
         cursor.execute('''
         INSERT OR IGNORE INTO user_progress (user_id, added, skipped) 
         VALUES (?, 0, 0)
@@ -611,7 +899,7 @@ async def handle_skip_word(callback: types.CallbackQuery):
 
 
 def get_mywords_keyboard(user_id: int, page: int = 1):
-    # Получаем общее количество слов пользователя
+
     cursor.execute('''
     SELECT COUNT(*) FROM user_words WHERE user_id = ?
     ''', (user_id,))
@@ -619,14 +907,14 @@ def get_mywords_keyboard(user_id: int, page: int = 1):
 
     buttons = []
 
-    # Если слов больше 20, добавляем кнопки пагинации
-    if total_words > 20:
-        total_pages = (total_words + 19) // 20  # Округляем вверх
 
-        # Добавляем кнопку "Удалить все слова"
+    if total_words > 20:
+        total_pages = (total_words + 19) // 20
+
+
         buttons.append([InlineKeyboardButton(text="🗑 Удалить все слова", callback_data="delete_all_words")])
 
-        # Добавляем кнопки навигации
+
         nav_buttons = []
         if page > 1:
             nav_buttons.append(InlineKeyboardButton(text="⬅️ Назад", callback_data=f"my_words_{page - 1}"))
@@ -635,7 +923,7 @@ def get_mywords_keyboard(user_id: int, page: int = 1):
         if nav_buttons:
             buttons.append(nav_buttons)
 
-    # Добавляем кнопку возврата в меню
+
     buttons.append([InlineKeyboardButton(text="🏠 Главное меню", callback_data="to_menu")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -647,7 +935,7 @@ async def handle_my_words_pagination(callback: types.CallbackQuery):
     page = int(callback.data.split("_")[-1])
 
     try:
-        # Получаем добавленные слова пользователя с пагинацией
+
         offset = (page - 1) * 20
         cursor.execute('''
         SELECT w.english, w.russian 
@@ -659,7 +947,7 @@ async def handle_my_words_pagination(callback: types.CallbackQuery):
         ''', (user_id, offset))
         user_words = cursor.fetchall()
 
-        # Получаем прогресс пользователя
+
         cursor.execute('''
         SELECT added, skipped, correct, wrong 
         FROM user_progress 
@@ -670,7 +958,7 @@ async def handle_my_words_pagination(callback: types.CallbackQuery):
         if user_words:
             words_list = "\n".join([f"🔤 {word} - 🇷🇺 {trans}" for word, trans in user_words])
 
-            # Получаем общее количество слов
+
             cursor.execute('''
             SELECT COUNT(*) FROM user_words WHERE user_id = ?
             ''', (user_id,))
@@ -705,7 +993,7 @@ async def handle_my_words_pagination(callback: types.CallbackQuery):
 async def handle_delete_all_words(callback: types.CallbackQuery):
     user_id = callback.from_user.id
 
-    # Создаем клавиатуру с подтверждением удаления
+
     confirm_keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="✅ Да, удалить", callback_data="confirm_delete_all")],
         [InlineKeyboardButton(text="❌ Нет, отмена", callback_data=f"my_words_1")]
@@ -723,12 +1011,12 @@ async def handle_confirm_delete_all(callback: types.CallbackQuery):
     user_id = callback.from_user.id
 
     try:
-        # Удаляем все слова пользователя
+
         cursor.execute('''
         DELETE FROM user_words WHERE user_id = ?
         ''', (user_id,))
 
-        # Обновляем прогресс (обнуляем только добавленные слова)
+
         cursor.execute('''
         UPDATE user_progress 
         SET added = 0 
@@ -756,7 +1044,7 @@ async def handle_mywords_command(message: types.Message):
     user_id = message.from_user.id
 
     try:
-        # Получаем первую страницу слов
+
         await handle_my_words_pagination(types.CallbackQuery(
             message=message,
             data="my_words_1",
@@ -777,14 +1065,13 @@ def get_test_keyboard():
 async def generate_test(user_id: int):
     """Генерирует тест только из добавленных пользователем слов"""
     try:
-        # Проверяем, что у пользователя достаточно слов для теста
         cursor.execute('''
         SELECT COUNT(*) FROM user_words WHERE user_id = ?
         ''', (user_id,))
         if cursor.fetchone()[0] < 4:
             return None, None, None
 
-        # Выбираем случайное слово из добавленных пользователем
+
         cursor.execute('''
         SELECT w.id, w.english, w.russian 
         FROM user_words uw
@@ -800,7 +1087,7 @@ async def generate_test(user_id: int):
 
         word_id, test_word, correct_answer = test_word_data
 
-        # Собираем 3 случайных неправильных ответа из ТОЛЬКО добавленных слов
+
         cursor.execute('''
         SELECT w.russian 
         FROM user_words uw
@@ -811,7 +1098,7 @@ async def generate_test(user_id: int):
         ''', (user_id, correct_answer))
         wrong_answers = [row[0] for row in cursor.fetchall()]
 
-        # Если не хватает неправильных ответов, дополняем случайными словами
+
         while len(wrong_answers) < 3:
             cursor.execute('''
             SELECT russian FROM words 
@@ -823,11 +1110,11 @@ async def generate_test(user_id: int):
             if word and word[0] not in wrong_answers:
                 wrong_answers.append(word[0])
 
-        # Смешиваем ответы
+
         all_answers = [correct_answer] + wrong_answers
         random.shuffle(all_answers)
 
-        # Сохраняем данные теста
+
         user_tests[user_id] = {
             "word": test_word,
             "correct": correct_answer,
@@ -845,7 +1132,7 @@ async def handle_start_test(callback: types.CallbackQuery):
     user_id = callback.from_user.id
 
     try:
-        # Проверяем, что у пользователя достаточно слов для теста
+
         cursor.execute('''
         SELECT COUNT(*) FROM user_words WHERE user_id = ?
         ''', (user_id,))
@@ -885,7 +1172,7 @@ async def handle_test(message: types.Message):
     user_id = message.from_user.id
 
     try:
-        # Проверяем, что у пользователя достаточно слов для теста
+
         cursor.execute('''
         SELECT COUNT(*) FROM user_words WHERE user_id = ?
         ''', (user_id,))
@@ -932,7 +1219,7 @@ async def handle_test_answer(callback: types.CallbackQuery):
     try:
         if test_data["answers"][answer_index] == test_data["correct"]:
             response = "✅ Правильно! Отличная работа!"
-            # Обновляем прогресс
+
             cursor.execute('''
             UPDATE user_progress 
             SET correct = correct + 1 
@@ -940,7 +1227,7 @@ async def handle_test_answer(callback: types.CallbackQuery):
             ''', (user_id,))
         else:
             response = f"❌ Неправильно. Правильный ответ: '{test_data['correct']}'"
-            # Обновляем прогресс
+
             cursor.execute('''
             UPDATE user_progress 
             SET wrong = wrong + 1 
@@ -965,7 +1252,7 @@ async def handle_more_test(callback: types.CallbackQuery):
     user_id = callback.from_user.id
 
     try:
-        # Проверяем, что у пользователя достаточно слов для теста
+
         cursor.execute('''
         SELECT COUNT(*) FROM user_words WHERE user_id = ?
         ''', (user_id,))
