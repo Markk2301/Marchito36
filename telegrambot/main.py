@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, Bot
 import asyncio
 from config import TOKEN
-from handlers.commands import command_router
+from handlers.commands import command_router, close_db
 
 dp = Dispatcher()
 dp.include_router(command_router)
