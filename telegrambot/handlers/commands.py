@@ -1537,8 +1537,18 @@ async def handle_skip_word(callback: types.CallbackQuery):
         cursor.execute('UPDATE user_progress SET skipped = skipped + 1 WHERE user_id = ?', (user_id,))
         conn.commit()
 
-        await callback.answer("⏭ Слово пропущено")
-        await send_random_word(callback.message)
+        await callback.message.delete()
+
+        word, translation = await get_random_word(user_id)
+        if word and translation:
+            await callback.message.answer(
+                text=f"🎲 Случайное слово:\n\n🔤 {word}\n🇷🇺 {translation}",
+                reply_markup=get_word_keyboard()
+            )
+        else:
+            await callback.message.answer("😕 Не удалось найти новое слово. Попробуйте позже.")
+
+        await callback.answer()
     except Exception as e:
         logging.error(f"Error skipping word: {e}")
         await callback.answer("⚠️ Произошла ошибка при пропуске слова")
