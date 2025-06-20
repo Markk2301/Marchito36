@@ -5,6 +5,8 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import random
 import logging
 
+from keyboars.inline import funny_keyboard
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -1071,10 +1073,6 @@ def get_word_keyboard():
     ])
 
 
-funny_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="🔤 Английский", callback_data="english_translate"),
-     InlineKeyboardButton(text="🇷🇺 Русский", callback_data="russian_translate")]
-])
 
 
 
@@ -1275,7 +1273,7 @@ async def handle_help(message: types.Message):
         '\n'
         "🥺Обучение🥺:\n"
         '\n'
-        "Напиши слово ( перевод ), если нужно будет что-то перевести.\n"
+        "Напиши слово ( перевод ), если потребуется переводчик.\n"
         '\n'
         "📖 /words – новые слова дня.\n"
         '\n'
@@ -1687,7 +1685,7 @@ async def reply_thanks(message: types.Message):
 
 @command_router.message(F.text.lower().contains("перевод"))
 async def handle_translate_request(message: types.Message):
-    await message.answer(text="Translate", reply_markup=funny_keyboard)
+    await message.answer(text="Нажмите на кнопку, чтобы перевести слово.", reply_markup=funny_keyboard)
 
 
 def close_db():
